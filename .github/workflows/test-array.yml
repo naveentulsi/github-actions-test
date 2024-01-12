@@ -3,7 +3,6 @@ on:
   workflow_dispatch:
   
 jobs:
-
   setup:
     runs-on: ubuntu-latest
     outputs:
@@ -11,7 +10,9 @@ jobs:
     steps:
       - id: matrix
         run: |
-          echo 'value=[\"a\", \"b\", \"c\"]' >> $GITHUB_OUTPUT
+          echo "value=[\"a\", \"b\", \"c\"]" >> $GITHUB_OUTPUT
+      - run: |
+          echo "${{ steps.matrix.outputs.value }}"
   build:
     needs: [ setup ]
     runs-on: ubuntu-latest
