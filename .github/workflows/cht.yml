@@ -1,0 +1,34 @@
+name: Example Workflow
+
+on: [push]
+
+jobs:
+  set-output-job:
+    runs-on: ubuntu-latest
+    outputs:
+      my_map_output: ${{ steps.set_output.outputs.my_map_output }}
+    steps:
+      - name: Run Python Script
+        id: set_output
+        shell: python
+        run: |
+          import os
+          import json  
+          my_map = {
+            "key1": "value1",
+            "key2": "value2",
+            "key3": "value3"
+            }
+          json_output = json.dumps([{"key": k, "value": v} for k, v in my_map.items()])
+          with open(os.getenv("GITHUB_OUTPUT"), "a") as output_file:
+            print(f"my_map_output={json_output}", file=output_file)
+        
+  use-as-matrix-job:
+    runs-on: ubuntu-latest
+    needs: set-output-job
+    strategy:
+      matrix:
+        item: ${{ fromJson(needs.set-output-job.outputs.my_map_output) }}
+    steps:
+      - name: Process each item in the matrix
+        run: echo "Processing key=${{ matrix.item.key }} and value=${{ matrix.item.value }}"
