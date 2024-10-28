@@ -6,7 +6,7 @@ jobs:
   setup:
     runs-on: ubuntu-latest
     outputs:
-      matrix: ${{ steps.matrix.outputs.matrix }}steps:
+      matrix: ${{ steps.matrix.outputs.matrix }}
     steps:
       - id: matrix
         shell: python
