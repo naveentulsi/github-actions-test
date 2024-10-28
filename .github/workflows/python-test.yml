@@ -1,0 +1,34 @@
+name: Test Github Actions Dynamic Matrix
+on:
+  workflow_dispatch:
+  
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.matrix.outputs.matrix }}
+    steps:
+      - id: matrix
+        shell: python
+        run: |
+          from os import getenv
+          from subprocess import Popen
+          import json
+          matrix_obj = {"deploy":[], "file": []}
+          matrix_obj["deploy"].append("prod")
+          matrix_obj["file:].append("/srp/tt.yml")
+          matrix_str = f'::set-output name=matrix::{json.dumps(matrix_obj)}'
+          print(f"Final matrix string: {matrix_str}")
+          Popen(['echo', matrix_str], bufsize=1)
+      - run: |
+          echo "${{ steps.matrix.outputs.matrix }}"
+  build:
+    needs: [ setup ]
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        value: ${{fromJSON(needs.setup.outputs.matrix)}}
+    steps:
+      - run: |
+          echo "${{ matrix.matrix }}"
+          echo "${{ matrix }}"
