@@ -15,9 +15,9 @@ jobs:
           import os
           import json  
           my_map = {
-            "key1": "value1",
-            "key2": "value2",
-            "key3": "value3"
+            "key1": ["value1"],
+            "key2": ["value2"],
+            "key3": ["value3"]
             }
           json_output = json.dumps([{"key": k, "value": v} for k, v in my_map.items()])
           with open(os.getenv("GITHUB_OUTPUT"), "a") as output_file:
