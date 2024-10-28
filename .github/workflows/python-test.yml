@@ -11,15 +11,14 @@ jobs:
       - id: matrix
         shell: python
         run: |
-          from os import getenv
-          from subprocess import Popen
+          import os
           import json
           matrix_obj = {"deploy":[], "file": []}
           matrix_obj["deploy"].append("prod")
-          matrix_obj["file"].append("/srp/tt.yml")
-          matrix_str = f'::set-output name=matrix::{json.dumps(matrix_obj)}'
-          print(f"Final matrix string: {matrix_str}")
-          Popen(['echo', matrix_str], bufsize=1)
+          matrix_obj["file"].append("tt.yml")
+          with open(os.environ['GITHUB_OUTPUT'], 'a') as fh:
+            fh.write('matrix={json.dumps(matrix_obj)}')
+          print(f"Final matrix string: {os.environ['GITHUB_OUTPUT']}")
       - run: |
           echo "${{ steps.matrix.outputs.matrix }}"
   build:
