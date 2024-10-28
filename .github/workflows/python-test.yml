@@ -16,7 +16,7 @@ jobs:
           import json
           matrix_obj = {"deploy":[], "file": []}
           matrix_obj["deploy"].append("prod")
-          matrix_obj["file:].append("/srp/tt.yml")
+          matrix_obj["file"].append("/srp/tt.yml")
           matrix_str = f'::set-output name=matrix::{json.dumps(matrix_obj)}'
           print(f"Final matrix string: {matrix_str}")
           Popen(['echo', matrix_str], bufsize=1)
