@@ -31,4 +31,4 @@ jobs:
         item: ${{ fromJson(needs.set-output-job.outputs.my_map_output) }}
     steps:
       - name: Process each item in the matrix
-        run: echo "Processing key=${{ matrix.item.key }} and value=${{ matrix.item.value }}"
+        run: echo "Processing key=${{ matrix.item.key }} and value=${{ matrix.item.value[0] }}"
