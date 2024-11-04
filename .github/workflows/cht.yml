@@ -31,5 +31,10 @@ jobs:
       - name: Process each item in the matrix
         run: |
           echo "Processing key=${{ matrix.item.key }} and value=${{ matrix.item.value[0] }}"
-          v=${{ matrix.item.value }}
+          value=${{ matrix.item.value }}
           echo $v
+          for  i in "${!value[@]}"; do
+            echo "${value[$i]}"
+            echo "Index"
+            echo "${i}"
+          done
