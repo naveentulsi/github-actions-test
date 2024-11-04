@@ -28,6 +28,6 @@ jobs:
         ${{fromJSON(needs.setup.outputs.matrix)}}
     steps:
       - run: |
-          echo "${{ matrix }}"
+          echo "Print value :: ${{ matrix }}"
           v=${{ matrix }}
           echo "$v[0]"
