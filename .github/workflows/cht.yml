@@ -15,9 +15,7 @@ jobs:
           import os
           import json  
           my_map = {
-            "key1": ["value1"],
-            "key2": ["value2"],
-            "key3": ["value3"]
+            "key1": ["value1", "valuea", "valueb"]
             }
           json_output = json.dumps([{"key": k, "value": v} for k, v in my_map.items()])
           with open(os.getenv("GITHUB_OUTPUT"), "a") as output_file:
@@ -31,4 +29,7 @@ jobs:
         item: ${{ fromJson(needs.set-output-job.outputs.my_map_output) }}
     steps:
       - name: Process each item in the matrix
-        run: echo "Processing key=${{ matrix.item.key }} and value=${{ matrix.item.value[0] }}"
+        run: |
+          echo "Processing key=${{ matrix.item.key }} and value=${{ matrix.item.value[0] }}"
+          v=${{ matrix.item.value[0] }}
+          echo $v
