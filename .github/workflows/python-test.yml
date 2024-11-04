@@ -13,7 +13,7 @@ jobs:
         run: |
           import os
           import json
-          matrix_obj = {"deploy":[], "file": []}
+          matrix_obj = {"deploy":[], "file": ["q", "d", "f"]}
           matrix_obj["deploy"].append("prod")
           matrix_obj["file"].append("tt.yml")
           with open(os.environ['GITHUB_OUTPUT'], 'a') as fh:
@@ -29,3 +29,5 @@ jobs:
     steps:
       - run: |
           echo "${{ matrix }}"
+          v=${{ matrix }}
+          echo "$v[0]"
