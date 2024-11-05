@@ -34,7 +34,7 @@ jobs:
           value=${{ matrix.item.value }}
           
           for  i in "${!value[@]}"; do
-            echo "${value[$i]}"
+            echo "${value[$i][0]}"
             echo "Index"
             echo $i
           done
