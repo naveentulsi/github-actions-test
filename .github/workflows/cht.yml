@@ -40,6 +40,7 @@ jobs:
         shell: python
         run: |
           import os
+          from array import array
           odv = []
           odv=${{ matrix.item.value }}
           print(odv)
