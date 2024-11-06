@@ -40,7 +40,6 @@ jobs:
         shell: python
         run: |
           import os
-          odl=${{ matrix.item.key }}
+          odv = []
           odv=${{ matrix.item.value }}
-          print(odl)
           print(odv)
