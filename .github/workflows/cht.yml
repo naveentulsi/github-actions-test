@@ -34,10 +34,11 @@ jobs:
           value=${{ matrix.item.value }}
           
           for  i in "${!value[@]}"; do
-            echo "Index $i"
+            echo ${value[$i]}
           done
       - name: test python
         shell: python
         run: |
           import os
-          print(os.environ['matrix.item.value'])
+          val=${{ matrix.item.key }}
+          print(val)
