@@ -28,14 +28,13 @@ jobs:
       matrix:
         item: ${{ fromJson(needs.set-output-job.outputs.my_map_output) }}
     steps:
-      - name: Process each item in the matrix
+      - name: Test Python with matrix values
+        shell: python
         env:
-          VALUES: ${{ toJSON(matrix.item.value) }}
+          ITEM_VALUES: ${{ toJSON(matrix.item.value) }}
         run: |
-          echo "Processing key=${{ matrix.item.key }} and values=${VALUES}"
-
-          # Parse and iterate over JSON array using jq
-          values=$(echo "$VALUES_JSON" | tr -d '[],"')
-          for value in $values; do
-            echo "Value: $value"
-          done
+          import os
+          import json
+          # Retrieve and parse JSON array from environment variable
+          value_list = json.loads(os.getenv("ITEM_VALUES"))
+          print("Values in Python:", value_list)
