@@ -13,7 +13,7 @@ jobs:
         shell: python
         run: |
           import os
-          import json  
+          import json
           my_map = {
             "key1": ["value1", "valuea", "valueb"]
           }
@@ -30,17 +30,23 @@ jobs:
     steps:
       - name: Process each item in the matrix
         run: |
-          echo "Processing key=${{ matrix.item.key }} and values=${{ matrix.item.value }}"
+          echo "Processing key=${{ matrix.item.key }}"
 
-          # Iterate over each item in the value array
-          for value in "${{ matrix.item.value[@] }}"; do
+          # Use jq to process each value in the array
+          values=${{ toJSON(matrix.item.value) }}
+          echo "Values: $values" # This is a JSON string representation of the array
+
+          echo "$values" | jq -c '.[]' | while read value; do
             echo "Value: $value"
           done
 
       - name: Test Python with matrix values
         shell: python
+        env:
+          ITEM_VALUES: ${{ toJSON(matrix.item.value) }}
         run: |
-          # Access matrix item value in Python by passing it as an environment variable
           import os
-          value_list = os.getenv("ITEM_VALUES").split(",")  # Set in previous step as ITEM_VALUES
+          import json
+          # Retrieve and parse JSON array from environment variable
+          value_list = json.loads(os.getenv("ITEM_VALUES"))
           print("Values in Python:", value_list)
