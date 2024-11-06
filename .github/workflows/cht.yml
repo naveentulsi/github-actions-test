@@ -31,14 +31,16 @@ jobs:
       - name: Process each item in the matrix
         run: |
           echo "Processing key=${{ matrix.item.key }} and value=${{ matrix.item.value[0] }}"
-          value=${{ matrix.item.value }}
+          odd=${{ matrix.item.value }}
           
-          for  i in "${!value[@]}"; do
-            echo ${value[$i]}
+          for  value in "${!odd[@]}"; do
+            echo ${value}
           done
       - name: test python
         shell: python
         run: |
           import os
-          val=${{ matrix.item.key }}
-          print(val)
+          odl=${{ matrix.item.key }}
+          odv=${{ matrix.item.value }}
+          print(odl)
+          print(odv)
