@@ -16,7 +16,7 @@ jobs:
           import json  
           my_map = {
             "key1": ["value1", "valuea", "valueb"]
-            }
+          }
           json_output = json.dumps([{"key": k, "value": v} for k, v in my_map.items()])
           with open(os.getenv("GITHUB_OUTPUT"), "a") as output_file:
             print(f"my_map_output={json_output}", file=output_file)
@@ -30,17 +30,17 @@ jobs:
     steps:
       - name: Process each item in the matrix
         run: |
-          echo "Processing key=${{ matrix.item.key }} and value=${{ matrix.item.value[0] }}"
-          odd=${{ matrix.item.value }}
-          
-          for  value in "${!odd[@]}"; do
-            echo ${value}
+          echo "Processing key=${{ matrix.item.key }} and values=${{ matrix.item.value }}"
+
+          # Iterate over each item in the value array
+          for value in "${{ matrix.item.value[@] }}"; do
+            echo "Value: $value"
           done
-      - name: test python
+
+      - name: Test Python with matrix values
         shell: python
         run: |
+          # Access matrix item value in Python by passing it as an environment variable
           import os
-          from array import array
-          odv = []
-          odv=${{ matrix.item.value }}
-          print(odv)
+          value_list = os.getenv("ITEM_VALUES").split(",")  # Set in previous step as ITEM_VALUES
+          print("Values in Python:", value_list)
