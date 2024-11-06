@@ -38,3 +38,8 @@ jobs:
             echo "Index"
             echo $i
           done
+      - name: test python
+        shell: python
+        run: |
+          import os
+          print(os.environ['matrix.item.value'])
