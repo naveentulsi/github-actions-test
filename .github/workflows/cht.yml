@@ -35,6 +35,7 @@ jobs:
           echo "Processing key=${{ matrix.item.key }} and values=${VALUES}"
 
           # Parse and iterate over JSON array using jq
-          for value in "${{ matrix.item.value }}"; do
+          values=$(echo "$VALUES_JSON" | tr -d '[],"')
+          for value in $values; do
             echo "Value: $value"
           done
