@@ -35,17 +35,6 @@ jobs:
           echo "Processing key=${{ matrix.item.key }} and values=${VALUES}"
 
           # Parse and iterate over JSON array using jq
-          echo "$VALUES" | jq -r '.[]' | while read value; do
+          for value in "${{ matrix.item.value }}"; do
             echo "Value: $value"
           done
-
-      - name: Test Python with matrix values
-        shell: python
-        env:
-          ITEM_VALUES: ${{ toJSON(matrix.item.value) }}
-        run: |
-          import os
-          import json
-          # Retrieve and parse JSON array from environment variable
-          value_list = json.loads(os.getenv("ITEM_VALUES"))
-          print("Values in Python:", value_list)
