@@ -29,14 +29,13 @@ jobs:
         item: ${{ fromJson(needs.set-output-job.outputs.my_map_output) }}
     steps:
       - name: Process each item in the matrix
+        env:
+          VALUES: ${{ toJSON(matrix.item.value) }}
         run: |
-          echo "Processing key=${{ matrix.item.key }}"
+          echo "Processing key=${{ matrix.item.key }} and values=${VALUES}"
 
-          # Use jq to process each value in the array
-          values=${{ toJSON(matrix.item.value) }}
-          echo "Values: $values" # This is a JSON string representation of the array
-
-          echo "$values" | jq -c '.[]' | while read value; do
+          # Parse and iterate over JSON array using jq
+          echo "$VALUES" | jq -r '.[]' | while read value; do
             echo "Value: $value"
           done
 
